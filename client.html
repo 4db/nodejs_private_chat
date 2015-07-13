@@ -1,0 +1,215 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>CHat</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #eee;
+        }
+
+        .form-signin {
+            max-width: 370px;
+            padding: 15px;
+            margin: 0 auto;
+        }
+        .form-signin .form-signin-heading,
+        .form-signin .checkbox {
+            margin-bottom: 10px;
+        }
+        .form-signin .checkbox {
+            font-weight: normal;
+        }
+        .form-signin .form-control {
+            position: relative;
+            height: auto;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            padding: 10px;
+            font-size: 16px;
+        }
+        .form-signin .form-control:focus {
+            z-index: 2;
+        }
+        .form-signin input[type="email"] {
+            margin-bottom: -1px;
+            border-bottom-right-radius: 0;
+            border-bottom-left-radius: 0;
+        }
+        .form-signin input[type="password"] {
+            margin-bottom: 10px;
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+        }
+
+
+        html {
+            position: relative;
+            min-height: 100%;
+        }
+        body {
+            /* Margin bottom by footer height */
+            margin-bottom: 60px;
+        }
+
+        .container {
+            width: auto;
+            max-width: 900px;
+            padding: 0 15px;
+        }
+        .container .text-muted {
+            margin: 20px 0;
+        }
+
+        #messages {
+            background-color: #fff;
+            min-height: 300px;
+            max-height: 300px;
+            overflow: auto;
+        }
+
+        #message {
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            font-size: 14px;
+        }
+        ul
+        {
+            list-style-type: none;
+        }
+        ul >li {
+            margin: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container" id="container">
+        <div class="signin" id="signin">
+            <div class="form-signin">
+                <h2 class="form-signin-heading">Please sign in</h2>
+                <label for="inputLogin" class="sr-only">Login</label>
+                <input type="text" id="inputLogin" class="form-control" placeholder="Login" required autofocus>
+                <br>
+                <button class="btn btn-lg btn-primary btn-block" type="button" onclick="login();">Sign in</button>
+            </div>
+        </div>
+
+        <div class="row row-offcanvas row-offcanvas-right" style="display:none;" id="chat">
+            <br>
+            <div class="col-xs-12 col-sm-9">
+                <div class="row">
+                    <div class="col-xs-6 col-lg-12">
+                        <ul id="messages">
+                        </ul>
+                    </div><!--/.col-xs-6.col-lg-12-->
+                </div><!--/row-->
+                <div class="row">
+                    <div class="col-xs-6 col-lg-12">
+                        <form onsubmit="return msg()">
+                            <p>
+                                <label for="message" class="sr-only">Login</label>
+                                <input type="text" id="message" class="col-lg-11" placeholder="message" required autofocus>
+                                <button type="submit" class="btn btn-xs btn-success col-lg-1" >Send</button>
+                            </p>
+                        </form>
+                    </div><!--/.col-xs-6.col-lg-4-->
+                </div><!--/row-->
+            </div><!--/.col-xs-12.col-sm-9-->
+
+            <div class="col-xs-6 col-sm-3 sidebar-offcanvas">
+                <br>
+                <div class="list-group" id="online">
+                </div>
+            </div><!--/.sidebar-offcanvas-->
+        </div><!--/row-->
+
+    </div> <!-- /container -->
+
+<script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+<script type="application/javascript">
+    var socket = io();
+
+    socket.on('getUsers', function(users){
+        document.getElementById('online').innerHTML = users;
+    });
+
+    socket.on('msg',function(obj){
+
+        var li = document.createElement("li");
+        var div = document.createElement("div");
+
+        var span = document.createElement("span");
+        span.className = 'label label-info';
+        span.appendChild(document.createTextNode(obj.time));
+        div.appendChild(span);
+
+        var span = document.createElement("span");
+        span.className = 'label label-warning';
+        span.appendChild(document.createTextNode(obj.login));
+        div.appendChild(span);
+
+        var span = document.createElement("span");
+        span.className = 'btn btn-default end';
+        span.appendChild(document.createTextNode(obj.msg));
+
+        div.appendChild(span);
+
+        li.appendChild(div);
+
+        var msg = document.getElementById('messages')
+
+        msg.appendChild(li);
+        msg.scrollTop = msg.scrollHeight;
+    });
+
+    function login() {
+        var login = document.getElementById('inputLogin').value.trim();
+
+        if(login === '') {
+            document.getElementById('inputLogin').value = '';
+            document.getElementById('inputLogin').focus();
+            return false;
+        }
+
+        document.getElementById('signin').style.display = 'none';
+        document.getElementById('chat').style.display = 'block';
+
+        socket.emit('login', login);
+    }
+
+    function selectUser(el) {
+        if (el.id === socket.io.engine.id ) return false;
+        el.className = /active/.test(el.className)?  "list-group-item"  : "list-group-item active";
+    }
+
+
+    function msg() {
+        var msg = document.getElementById('message');
+        var userIds = [];
+
+        var els = document.getElementsByClassName("active");
+        for (var i = 0; i<els.length; i++) {
+            userIds.push(els[i].id);
+        }
+        if (userIds.length !== 0) userIds.push( socket.io.engine.id );
+
+        socket.emit('msg', {
+            msg     : msg.value,
+            userIds : userIds
+        });
+        msg.value = '';
+        return false;
+    }
+
+</script>
+</body>
+</html>
