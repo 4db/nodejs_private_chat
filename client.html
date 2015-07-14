@@ -157,6 +157,15 @@
         span.appendChild(document.createTextNode(obj.login));
         div.appendChild(span);
 
+        if (obj.to.length !== 0) {
+            obj.to.map(function(username){
+                var span = document.createElement("span");
+                span.className = 'label label-primary';
+                span.appendChild(document.createTextNode(username));
+                div.appendChild(span);
+            });
+        }
+
         var span = document.createElement("span");
         span.className = 'btn btn-default end';
         span.appendChild(document.createTextNode(obj.msg));

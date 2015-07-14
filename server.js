@@ -29,11 +29,18 @@ io.on('connection', function(socket){
 
     socket.on('msg', function(obj){
         var d = new Date();
+        var to = [];
+        obj.userIds.map(function(id){
+            if (id !== socket.id) {
+                to.push(users[id]);
+            }
+        });
 
         var msg = {
             time: d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds(),
             msg: obj.msg,
-            login:users[socket.id]
+            login:users[socket.id],
+            to: to
         };
 
         if (obj.userIds.length === 0) {
