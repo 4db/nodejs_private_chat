@@ -1,15 +1,16 @@
 var express = require('express');
-var io = require('socket.io')(http);
 var fs = require('fs');
 var path = require('path');
 var app = express();
+
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.get('/', function(req, res){
     res.sendFile(__dirname + '/client.html');
 });
-var http = require('http').Server(app);
 
+var http = require('http').Server(app);
+var io = require('socket.io')(http);
 var users = {};
 
 io.on('connection', function(socket){
