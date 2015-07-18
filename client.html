@@ -22,7 +22,6 @@
                 <button class="btn btn-lg btn-primary btn-block" type="button" onclick="login();">Sign in</button>
             </div>
         </div>
-
         <div class="row row-offcanvas row-offcanvas-right" style="display:none;" id="chat">
             <br>
             <div class="col-xs-12 col-sm-9">
@@ -30,8 +29,8 @@
                     <div class="col-xs-6 col-lg-12">
                         <ul id="messages">
                         </ul>
-                    </div><!--/.col-xs-6.col-lg-12-->
-                </div><!--/row-->
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col-xs-6 col-lg-12">
                         <form onsubmit="return msg()">
@@ -41,19 +40,16 @@
                                 <button type="submit" class="btn btn-xs btn-success col-lg-1" >Send</button>
                             </p>
                         </form>
-                    </div><!--/.col-xs-6.col-lg-4-->
-                </div><!--/row-->
-            </div><!--/.col-xs-12.col-sm-9-->
-
+                    </div>
+                </div>
+            </div>
             <div class="col-xs-6 col-sm-3 sidebar-offcanvas">
                 <br>
                 <div class="list-group" id="online">
                 </div>
-            </div><!--/.sidebar-offcanvas-->
-        </div><!--/row-->
-
-    </div> <!-- /container -->
-
+            </div>
+        </div>
+    </div>
 <script src="/socket.io-1.2.0.js"></script>
 <script type="application/javascript">
     var socket = io();
