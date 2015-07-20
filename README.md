@@ -1,8 +1,6 @@
 # nodejs_private_chat
 
-Example private chat on nodejs:
-
-javascript, nodejs, expressjs.
+Example private/group chat on nodejs: javascript, nodejs, expressjs.
 
 # Install
 
