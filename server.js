@@ -63,7 +63,7 @@ http.listen(3000, function(){
     console.log('listening on *:3000');
 });
 
-function getUsers(callback, loginId) {
+function getUsers(callback) {
     var html = '';
 
     for(var id in users) {
