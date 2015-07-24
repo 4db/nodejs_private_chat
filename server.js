@@ -60,12 +60,11 @@ io.on('connection', function(socket){
 
 
 http.listen(3000, function(){
-    console.log('listening on *:3000');
+    console.log('listening chat on *:3000');
 });
 
 function getUsers(callback) {
     var html = '';
-
     for(var id in users) {
         if(users[id] !== '') {
             html += '<a href="#" class="list-group-item" id="' + id + '" onclick="selectUser(this)">' + users[id] + '</a>';
