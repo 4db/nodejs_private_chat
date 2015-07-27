@@ -2,7 +2,8 @@
 
 Example private/group chat on nodejs: vanilla javascript, nodejs, socket.io, expressjs.
 
-# Install
+# For install
 
+ git clone 
  npm install
  nodejs start server.js
