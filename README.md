@@ -8,6 +8,6 @@ Example private/group chat on nodejs:
 
 # For install
 
- git clone 
- npm install
- nodejs start server.js
+ * git clone 
+ * npm install
+ * nodejs start server.js
