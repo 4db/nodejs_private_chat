@@ -26,6 +26,7 @@ io.on('connection', function(socket){
 
     socket.on('disconnect', function() {
         delete users[socket.id];
+        
         getUsers(function(html){
             io.emit('getUsers', html);
         });
@@ -34,6 +35,7 @@ io.on('connection', function(socket){
     socket.on('msg', function(obj){
         var d = new Date();
         var to = [];
+        
         obj.userIds.map(function(id){
             if (id !== socket.id) {
                 to.push(users[id]);
@@ -65,6 +67,7 @@ http.listen(3000, function(){
 
 function getUsers(callback) {
     var html = '';
+    
     for(var id in users) {
         if(users[id] !== '') {
             html += '<a href="#" class="list-group-item" id="' + id + '" onclick="selectUser(this)">' + users[id] + '</a>';
