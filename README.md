@@ -5,6 +5,7 @@ Example private/group chat on nodejs:
 * nodejs
 * socket.io
 * expressjs
+* bootstrap
 
 # For install
 
