@@ -7,7 +7,7 @@ Example private/group chat on nodejs:
 * expressjs
 * bootstrap
 
-# For install
+# install
 
  * git clone 
  * npm install
